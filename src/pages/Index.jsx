@@ -1,8 +1,10 @@
 import { Container, Text, VStack, Box, Flex, Spacer, Button, useColorMode } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useFoo } from "../integrations/supabase/index.js";
 
 const Index = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const { data, error, isLoading } = useFoo();
 
   return (
     <Container maxW="container.xl" p={0}>
@@ -24,6 +26,9 @@ const Index = () => {
         <VStack spacing={4}>
           <Text fontSize="4xl" fontWeight="bold">Welcome to Our Website</Text>
           <Text fontSize="xl">This is a simple, clean, and responsive landing page.</Text>
+          {isLoading && <Text>Loading...</Text>}
+          {error && <Text color="red.500">Error: {error.message}</Text>}
+          {data && <Text>Data: {JSON.stringify(data)}</Text>}
         </VStack>
       </Container>
     </Container>
